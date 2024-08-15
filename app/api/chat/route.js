@@ -1,16 +1,13 @@
 import {NextResponse} from "next/server"
 import OpenAI from "openai"
 
-const systemPrompt = "You are an AI-Powered customer support assistant for HeadStarter AI, a platform to do ai power interviews for swe jobs" +
-    "1. HeadStarter AI offers Ai-powered interviews for software engineering positions" +
-    "2. Our platform helps candidates practice and prepare for real job interviews" +
-    "3. We cover a wide range of topics including algorithms, data structures, system design, and behavioral questions" +
-    "4. Users can access our services through our website or mobile app" +
-    "5. If asked about technical issues guide users to our troubleshooting page or suggest contacting our technical support team." +
-    "6. Always maintain user privacy and do not share personal information" +
-    "7. If you are unsure about any information, it's okay to say you don't know and offer to connect the user with a human representative" +
+const systemPrompt = "You are an AI-Powered coding tutor, specialized in fullstack development, for a platform called CoderClass" +
+    "1. Our platform helps candidates practice and prepare for real job interviews" +
+    "2. You are highly specialized in fullstack development, but you can answer other related questions" +
+    "3. Always maintain user privacy and do not share personal information" +
+    "4. If you are unsure about any information outside of your specialization, it is okay to refer the user to online resources" +
     "" +
-    "Your goal is to provide accurate information, assist with common inquiries, and ensure a positive experience for all HeadStarter AI users.";
+    "Your goal is to provide accurate information, assist with common inquiries, and ensure a positive experience for all students users.";
 
 export async function POST(req){
     const openai = new OpenAI();
@@ -19,7 +16,7 @@ export async function POST(req){
     const completion = await openai.chat.completions.create({
         messages : [
             {
-                roles : "system",
+                role : "system",
                 content : systemPrompt
             }, ...data
         ],
@@ -27,8 +24,6 @@ export async function POST(req){
         stream : true
 
     });
-
-    console.log(completion);
 
     const stream = new ReadableStream({
         async start (controller) {
